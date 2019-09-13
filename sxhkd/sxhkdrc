@@ -11,8 +11,8 @@ alt + d
 	rofi -show drun -color-window '#000000, #000000,#000000' -color-normal '#000000, #aaaaaa, #000000, #145f9d, #aaaaaa' -color-active '#000000, #aaaaaa, #000000, #145f9d, #eeeeee' -color-urgent '#000000, #aaaaaa, #000000, #145f9d, #aaaaaa' -hide-scrollbar -location 2
 
 # Screenshot
-alt + p
-	  shutter -s
+# alt + p
+#	  shutter -s
 
 
 # i3lock
@@ -112,11 +112,56 @@ XF86MonBrightness{Down,Up}
 
 # Volume
 XF86Audio{LowerVolume,RaiseVolume}
-	pactl set-sink-volume 0 {-2%,+2%}
+	pulse-cli-syntax set-sink-volume 1 {-2%,+2%}
 
 # Mute
 XF86AudioMute
-	pactl set-sink-mute 0 toggle
+	pulse-cli-syntax set-sink-mute 0 toggle
 
 XF86AudioMicMute
-	pactl set-source-mute 1 toggle
+	pulse-cli-syntax set-source-mute 1 toggle
+
+# show bar on key press
+alt + p
+	polybar-msg cmd toggle && xdo raise -N Polybar
+
+# negative -w arg to account for a border width (default: 100%)
+# alt + o
+#     tdrop -ma -y "$PANEL_HEIGHT" -s dropdown termite
+
+super + w
+	id=$(bspc query -N -n "focused");\
+	if [ -n "$id" ];then \
+		xprop -id $id -f _SCRATCH 32ii -set _SCRATCH $(date +%s,%N);\
+		bspc node -t "floating";\
+		xdotool windowunmap $id;\
+	fi
+
+super + shift + w
+	i=$(bspc query -N -n "focused.floating");\
+	if [ -n "$i" ];then \
+		xprop -id $i -f _SCRATCH 32ii -set _SCRATCH $(date +%s,%N);\
+		xdotool windowunmap $i;\
+	else;\
+		i=$(for w in $(xwininfo -root -children | grep -e "^\s*0x[0-9a-f]\+" -o);do \
+			t=$(xprop -id $w _SCRATCH | grep ' = \(.*\)');\
+			if [ -n "$t" ];then \
+				echo $t $w;\
+			fi;\
+		done|sort -n|head -n1|cut -d" " -f 5);\
+		if [ -n "$i" ];then \
+			xprop -id $i -remove _SCRATCH;\
+			bspc rule -a \* state=floating center=on --one-shot;\
+			xdotool windowmap $i;\
+			bspc node -f $i;\
+		fi;\
+	fi
+
+F12
+	xdotool search --onlyvisible --classname scratchpad windowunmap \
+	|| ( xdotool search --classname scratchpad windowmap; xdotool search --classname scratchpad windowraise; ) \
+	|| ( termite --name scratchpad --class floating; xdotool search --classname scratchpad windowraise; )
+
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd
