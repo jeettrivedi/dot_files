@@ -1,4 +1,11 @@
-# Dot files repo
+# Dotfiles
 
-A place to keep my dot files. Using bspwm as a window manager, polybar as a status bar and dunst for notifications. Using Termite as a terminal emulator. 
+
+A simple minimal workstation setup using
+    * ~~Termite~~ Alacritty as a terminal emulator.
+    * Neovim as the primary text editor/IDE.
+    * ~~i3wm~~ bspwm as a window manager.
+    * Rofi as a program launcher.
+    * ~~Polybar~~ tint2 as a status bar.
+    * Dunst for notifications.
 

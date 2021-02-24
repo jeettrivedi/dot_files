@@ -1,10 +1,9 @@
-
 # wm independent hotkeys
 #
 
 # terminal emulator
 alt + Return
-	termite
+	alacritty
 
 # program launcher
 alt + d
@@ -16,8 +15,8 @@ alt + d
 
 
 # i3lock
-alt + y
-	  i3lock -c 000000 -f 
+# alt + y
+# 	  i3lock -c 000000 -f 
 
 # close and kill
 alt + {_,shift + }q
@@ -47,6 +46,9 @@ alt + r
 # focus the node in the given direction
 alt + {_,shift + }{Left,Down,Up,Right}
 	bspc node -{f,s} {west,south,north,east}
+
+alt + {h,j,k,l}
+	bspc node -{f} {west,south,north,east}
 
 # focus the last node/desktop
 alt + {grave,Tab}
@@ -112,55 +114,19 @@ XF86MonBrightness{Down,Up}
 
 # Volume
 XF86Audio{LowerVolume,RaiseVolume}
-	pulse-cli-syntax set-sink-volume 1 {-2%,+2%}
+	pactl set-sink-volume 0 {-10%,+10%}
 
 # Mute
 XF86AudioMute
-	pulse-cli-syntax set-sink-mute 0 toggle
+	pactl set-sink-mute 0 toggle
 
 XF86AudioMicMute
-	pulse-cli-syntax set-source-mute 1 toggle
+	pactl set-source-mute 1 toggle
 
 # show bar on key press
-alt + p
-	polybar-msg cmd toggle && xdo raise -N Polybar
-
-# negative -w arg to account for a border width (default: 100%)
-# alt + o
-#     tdrop -ma -y "$PANEL_HEIGHT" -s dropdown termite
-
-super + w
-	id=$(bspc query -N -n "focused");\
-	if [ -n "$id" ];then \
-		xprop -id $id -f _SCRATCH 32ii -set _SCRATCH $(date +%s,%N);\
-		bspc node -t "floating";\
-		xdotool windowunmap $id;\
-	fi
-
-super + shift + w
-	i=$(bspc query -N -n "focused.floating");\
-	if [ -n "$i" ];then \
-		xprop -id $i -f _SCRATCH 32ii -set _SCRATCH $(date +%s,%N);\
-		xdotool windowunmap $i;\
-	else;\
-		i=$(for w in $(xwininfo -root -children | grep -e "^\s*0x[0-9a-f]\+" -o);do \
-			t=$(xprop -id $w _SCRATCH | grep ' = \(.*\)');\
-			if [ -n "$t" ];then \
-				echo $t $w;\
-			fi;\
-		done|sort -n|head -n1|cut -d" " -f 5);\
-		if [ -n "$i" ];then \
-			xprop -id $i -remove _SCRATCH;\
-			bspc rule -a \* state=floating center=on --one-shot;\
-			xdotool windowmap $i;\
-			bspc node -f $i;\
-		fi;\
-	fi
-
-F12
-	xdotool search --onlyvisible --classname scratchpad windowunmap \
-	|| ( xdotool search --classname scratchpad windowmap; xdotool search --classname scratchpad windowraise; ) \
-	|| ( termite --name scratchpad --class floating; xdotool search --classname scratchpad windowraise; )
+# No longer in use as switched to tint2
+# alt + p
+# 	polybar-msg cmd toggle && xdo raise -N Polybar
 
 # make sxhkd reload its configuration files:
 super + Escape
