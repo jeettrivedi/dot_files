@@ -2,28 +2,19 @@
 #
 
 # terminal emulator
-alt + Return
+super + Return
 	alacritty
 
 # program launcher
-alt + d
+super + d
 	rofi -show drun -color-window '#000000, #000000,#000000' -color-normal '#000000, #aaaaaa, #000000, #145f9d, #aaaaaa' -color-active '#000000, #aaaaaa, #000000, #145f9d, #eeeeee' -color-urgent '#000000, #aaaaaa, #000000, #145f9d, #aaaaaa' -hide-scrollbar -location 2
 
-# Screenshot
-# alt + p
-#	  shutter -s
-
-
-# i3lock
-# alt + y
-# 	  i3lock -c 000000 -f 
-
 # close and kill
-alt + {_,shift + }q
+super + {_,shift + }q
 	bspc node -{c,k}
 
 # alternate between the tiled and monocle layout
-alt + f 
+super + m 
 	bspc desktop -l next
 
 #
@@ -31,7 +22,7 @@ alt + f
 #
 
 # set the window state
-alt + {t,shift + t,s,m}
+super + {t,shift + t,s,f}
 	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
 
 
@@ -39,23 +30,23 @@ alt + {t,shift + t,s,m}
 #
 
 #
-alt + r
+super + r
 	  bspc node -n 'last.!automatic.local'
 
 
 # focus the node in the given direction
-alt + {_,shift + }{Left,Down,Up,Right}
+super + {_,shift + }{Left,Down,Up,Right}
 	bspc node -{f,s} {west,south,north,east}
 
-alt + {h,j,k,l}
+super + {h,j,k,l}
 	bspc node -{f} {west,south,north,east}
 
 # focus the last node/desktop
-alt + {grave,Tab}
+super + {grave,Tab}
 	bspc {node,desktop} -f last
 
 # focus or send to the given desktop
-alt + {_,shift + }{1-9,0}
+super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} '^{1-9,10}'
 
 #
@@ -63,19 +54,19 @@ alt + {_,shift + }{1-9,0}
 #
 
 # preselect the direction
-alt + ctrl + {Left,Down,Up,Right}
+super + ctrl + {Left,Down,Up,Right}
 	bspc node -p {west,south,north,east}
 
 # preselect the ratio
-alt + ctrl + {1-9}
+super + ctrl + {1-9}
 	bspc node -o 0.{1-9}
 
 # cancel the preselection for the focused node
-alt + ctrl + space
+super + ctrl + space
 	bspc node -p cancel
 
 # cancel the preselection for the focused desktop
-alt + ctrl + shift + space
+super + ctrl + shift + space
 	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
 #
@@ -83,38 +74,36 @@ alt + ctrl + shift + space
 #
 
 # resize too east 
-alt + shift + h
+super + shift + h
 	bspc node -z right -20 0 || bspc node -z left -20 0  
 
 # resize too west
-alt + shift + l
+super + shift + l
 	bspc node -z right 20 0 || bspc node -z left 20 0 
 
 # resize too nord
-alt + shift + k
+super + shift + k
 	bspc node -z top 0 -20 || bspc node -z bottom 0 -20  
 
 # resize too south
-alt + shift + j
+super + shift + j
 	bspc node -z top 0 20 || bspc node -z bottom 0 20 
 
 # move a floating window
-alt + {Left,Down,Up,Right}
+super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
-
 
 #
 # Hotkeys
-# 
-
+#
 
 # Brightness
 XF86MonBrightness{Down,Up}
-	light {-U 5,-A 5}
+	light {-U 10,-A 10}
 
 # Volume
 XF86Audio{LowerVolume,RaiseVolume}
-	pactl set-sink-volume 0 {-10%,+10%}
+	pactl set-sink-volume 3 {-10%,+10%}
 
 # Mute
 XF86AudioMute
@@ -123,11 +112,9 @@ XF86AudioMute
 XF86AudioMicMute
 	pactl set-source-mute 1 toggle
 
-# show bar on key press
-# No longer in use as switched to tint2
-# alt + p
-# 	polybar-msg cmd toggle && xdo raise -N Polybar
-
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd
+
+super + v
+	copyq menu
