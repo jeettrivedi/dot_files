@@ -1,16 +1,11 @@
 #! /bin/sh
 sxhkd &
-xrandr --output DP-0 --primary --mode 2560x1440 --rotate normal --output HDMI-0 --mode 1920x1080 --rotate right --left-of DP-0 --output DP-4 --mode 2560x1440 --rotate normal --right-of DP-0 &
 compton &
-feh --bg-center ~/Pictures/9iw3b93ypcl71.jpg
-# tint2 &
-# dunst &
-# parcellite &
-# numlockx &
+feh --bg-center ~/Pictures/wallpapers/bird.png &
+polybar &
+copyq
 
-bspc monitor HDMI-0 -d I II III IV V VI VII VIII IX X
-bspc monitor DP-0 -d I II III IV V VI VII VIII IX X
-bspc monitor DP-4 -d I II III IV V VI VII VIII IX X
+bspc monitor eDP-1 -d I II III IV V VI VII VIII IX X
 
 bspc config focus_follows_pointer true
 
@@ -23,7 +18,6 @@ bspc config gapless_monocle      true
 
 bspc config remove_unplugged_monitors true
 bspc config remove_disabled_monitors true
-bspc merge_overlapping_monitors true
 
 bspc config normal_border_color
 bspc config active_border_color  \#145f9d
@@ -35,10 +29,11 @@ bspc config pointer_action1 move
 
 bspc config pointer_action2 resize_corner
 
-bspc config top_padding 33
+bspc config top_padding 40
 bspc config bottom_padding 0
 
 bspc rule -a plasmashell state=floating
+bspc rule -a copyq state=floating
 
 # bspc config automatic_scheme longest_side
 
