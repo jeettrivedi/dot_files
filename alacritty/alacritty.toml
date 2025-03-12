@@ -1,0 +1,19 @@
+[font]
+size = 7.5
+
+[font.bold]
+family = "Fira Code Retina"
+style = "Bold"
+
+[font.italic]
+family = "Fira Code Retina"
+style = "Italic"
+
+[font.normal]
+family = "Fira Code Retina"
+
+[window]
+opacity = 0.9
+
+[terminal.shell]
+program = "/bin/zsh"
