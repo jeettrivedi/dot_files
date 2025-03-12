@@ -1,0 +1,5 @@
+font-family = "Fira Code Retina"
+window-padding-x = 2
+theme = "Monokai Classic"
+background-opacity = 0.98
+command = "/bin/zsh"
